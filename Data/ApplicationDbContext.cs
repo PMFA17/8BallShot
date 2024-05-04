@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using _8BallShot.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace _8BallShot.Data
@@ -9,5 +10,10 @@ namespace _8BallShot.Data
             : base(options)
         {
         }
+
+        public DbSet<Torneio> Torneio { get; set; }
+        public DbSet<Jogador> Jogador { get; set; }
+        public DbSet<Fases> Fases { get; set; }
+
     }
 }

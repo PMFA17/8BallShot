@@ -1,0 +1,72 @@
+﻿@model _8BallShot.Models.Torneio
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="text-align: center;">
+    <h2>Criar Torneio</h2>
+</div>
+
+<p></p>
+<hr />
+<p></p>
+<p></p>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomeTorneio" class="control-label" style=" text-align: center;">Nome do Torneio</label>
+                <input asp-for="NomeTorneio" class="form-control" />
+                <span asp-validation-for="NomeTorneio" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="nJogadores" class="control-label" style="text-align: center;">Número de Jogadores</label>
+                <select asp-for="nJogadores" class="form-control text-muted">
+                    <option value="">Selecione o número de Jogadores</option>
+                    @for (int j = 1; j <= 64; j++)
+                    {
+                        <option value="@j">@j</option>
+                    }
+                </select>
+                <span asp-validation-for="nJogadores" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="nFases" class="control-label" style="text-align: center;">Número de Fases</label>
+                <select asp-for="nFases" class="form-control text-muted">
+                    <option value="">Selecione o número de fases</option>
+                    @for (int i = 1; i <= 3; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span asp-validation-for="nFases" class="text-danger"></span>
+
+                <p></p>
+                <p></p>
+            </div>
+@* 
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" class="form-control" />
+                <span asp-validation-for="DataInicio" class="text-danger"></span>
+            </div>
+ *@
+
+            <div class="form-group row align-content-center">
+                <input type="submit" value="Criar Torneio" class="btn btn-outline-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class ="text-center">
+    <a asp-controller="Home" asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

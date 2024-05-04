@@ -1,0 +1,49 @@
+﻿@model _8BallShot.Models.Torneio
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Torneio</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdTorneio" />
+            <div class="form-group">
+                <label asp-for="NomeTorneio" class="control-label"></label>
+                <input asp-for="NomeTorneio" class="form-control" />
+                <span asp-validation-for="NomeTorneio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nFases" class="control-label"></label>
+                <input asp-for="nFases" class="form-control" />
+                <span asp-validation-for="nFases" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nJogadores" class="control-label"></label>
+                <input asp-for="nJogadores" class="form-control" />
+                <span asp-validation-for="nJogadores" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" class="form-control" />
+                <span asp-validation-for="DataInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

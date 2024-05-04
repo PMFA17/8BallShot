@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <style>
+            .center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 200px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <header class="d-flex justify-content-center align-items-center">
+            <h1>8 BALL SHOT</h1>
+        </header>
+        <h2 class="d-flex justify-content-center align-items-center">
+            <img src="~/Fotos/logo.png" alt="logo" style="max-width: 400px; height: auto;">
+        </h2>
+
+        <div class="center">
+            <button asp-action="CriarTorneio" style="margin: 0 25px;" class="btn btn-outline-secondary">Criar Torneio</button>
+            <button asp-action="VerRegras" style="margin: 0 25px;" class="btn btn-outline-secondary">Ver Regras</button>
+        </div>
+
+    </body>
+    </html>
+}
+else
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+
+        <header class="d-flex justify-content-center align-items-center">
+            <h1>8 BALL SHOT</h1>
+        </header>
+        <h2 class="d-flex justify-content-center align-items-center">
+            <img src="~/Fotos/logo.png" alt="logo" style="max-width: 400px; height: auto;">
+        </h2>
+        <h3 class="d-flex justify-content-center align-items-center">
+            <p1>Bem-vindo à nossa plataforma para Gestão de Torneios de Bilhar!!</p1>
+        </h3>
+        <br />
+        <h4 class="d-flex justify-content-center align-items-center">
+            <p2><a asp-area="Identity" asp-action="Register">Regista-te</a> e/ou faz <a href="@Url.Action("Login", "Account")">Login</a>para teres acesso à nossa plataforma.</p2>
+        </h4>
+
+    </body>
+    </html>
+}

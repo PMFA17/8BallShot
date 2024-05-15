@@ -238,7 +238,7 @@ namespace _8BallShot.Data.Migrations
 
                     b.HasKey("IdFases");
 
-                    b.ToTable("Fases");
+                    b.ToTable("Fases", (string)null);
                 });
 
             modelBuilder.Entity("_8BallShot.Models.Jogador", b =>
@@ -258,7 +258,7 @@ namespace _8BallShot.Data.Migrations
 
                     b.HasKey("IdJogador");
 
-                    b.ToTable("Jogador");
+                    b.ToTable("Jogador", (string)null);
                 });
 
             modelBuilder.Entity("_8BallShot.Models.Torneio", b =>
@@ -284,7 +284,7 @@ namespace _8BallShot.Data.Migrations
 
                     b.HasKey("IdTorneio");
 
-                    b.ToTable("Torneio");
+                    b.ToTable("Torneio", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

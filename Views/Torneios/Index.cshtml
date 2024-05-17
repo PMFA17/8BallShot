@@ -1,4 +1,4 @@
-﻿@model IEnumerable<_8BallShot.Models.Torneio>
+﻿@* @model IEnumerable<_8BallShot.Models.Torneio>
 
 @{
     ViewData["Title"] = "Index";
@@ -51,3 +51,29 @@
 }
     </tbody>
 </table>
+ *@
+
+
+@model List<Jogador>
+
+<h1>Select Players for Tournament</h1>
+
+<form method="post" action="/Torneios/Bracket">
+    <label for="player1">Player 1:</label>
+    <select name="player1" id="player1">
+        @foreach (var player in Model)
+        {
+            <option value="@player.IdJogador">@player.NomeJogador</option>
+        }
+    </select>
+    <br />
+    <label for="player2">Player 2:</label>
+    <select name="player2" id="player2">
+        @foreach (var player in Model)
+        {
+            <option value="@player.IdJogador">@player.NomeJogador</option>
+        }
+    </select>
+    <br />
+    <input type="submit" value="Start Tournament" />
+</form>

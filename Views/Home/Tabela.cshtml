@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Tabela";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -55,33 +51,61 @@
             .button:hover {
                 background-color: #0056b3;
             }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .winner-section {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Campeonato de Bilhar</h1>
-        <button id="startButton" class="button">Iniciar Campeonato</button>
+
+        <div class="form-group" id="numJogadoresDiv">
+            <label for="numJogadores">Número de jogadores (4 a 64):</label>
+            <input type="number" id="numJogadores" min="4" max="64" value="4">
+            <button id="confirmNumJogadores" class="button">Confirmar Número de Jogadores</button>
+        </div>
+
+        <div id="jogadoresForm" style="display: none;">
+            <h2>Escolha os Jogadores</h2>
+            <div id="jogadoresInputs"></div>
+            <button id="startButton" class="button">Iniciar Campeonato</button>
+        </div>
+
         <button id="terminarButton" class="button" style="display: none;">Terminar Torneio</button>
-        <br />
-        <h2>Tabela de Classificação</h2>
-        <table id="tabelaResultados">
-            <thead>
-                <tr>
-                    <th>Jogador</th>
-                    <th>Pontos</th>
-                    <th>Vitórias</th>
-                    <th>Derrotas</th>
-                    <th>Jogos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Aqui serão inseridas as linhas da tabela via JavaScript -->
-            </tbody>
-        </table>
-        <br />
-        <h2>Jogos</h2>
+
+        <div id="tabelaResultados">
+            <table id="tabelaResultados">
+                <h2>Tabela de Classificação</h2>
+                <thead>
+                    <tr>
+                        <th>Jogador</th>
+                        <th>Pontos</th>
+                        <th>Vitórias</th>
+                        <th>Derrotas</th>
+                        <th>Jogos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aqui serão inseridas as linhas da tabela via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="winner-section" id="winnerSection" style="display: none;">
+            <img src="" id="winnerImage" alt="Vencedor">
+            <h3 id="winnerName"></h3>
+        </div>
+
+
         <div id="jogosContainer">
+            <h2>Jogos</h2>
             <table id="jogoAtual">
                 <thead>
                     <tr>
@@ -97,66 +121,94 @@
         </div>
     </div>
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         var jogos = [];
         var jogoIndex = 0;
         var resultados = {};
+        var jogadoresSelecionados = [];
+        var spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing';
 
-        document.getElementById("startButton").addEventListener("click", function() {
-            var numeroJogadores = prompt("Digite o número de jogadores (entre 8 e 64):");
-            if (numeroJogadores === null) return; // Se o usuário cancelar, saia da função
-
-            numeroJogadores = parseInt(numeroJogadores);
-            if (isNaN(numeroJogadores) || numeroJogadores < 8 || numeroJogadores > 64) {
-                alert("Número inválido de jogadores. O número de jogadores deve estar entre 8 e 64.");
+        document.getElementById("confirmNumJogadores").addEventListener("click", function () {
+            var numJogadores = document.getElementById("numJogadores").value;
+            if (numJogadores < 4 || numJogadores > 64) {
+                alert("Número inválido de jogadores. O número de jogadores deve estar entre 4 e 64.");
                 return;
             }
+            fetchPlayerNames(spreadsheetUrl, function (jogadores) {
+                if (jogadores.length < numJogadores) {
+                    alert("A planilha não contém jogadores suficientes.");
+                    return;
+                }
+                exibirInputsJogadores(numJogadores, jogadores);
+                document.getElementById("numJogadoresDiv").style.display = "none"; // Oculta a div de seleção do número de jogadores
+                iniciarCampeonato(numJogadores);
+            });
+        });
 
-            var jogadores = criarJogadores(numeroJogadores);
-            resultados = inicializarResultados(jogadores);
+        function fetchPlayerNames(url, callback) {
+            var query = new google.visualization.Query(url.replace('/edit', '/gviz/tq'));
+            query.setQuery('SELECT A');
+            query.send(function (response) {
+                if (response.isError()) {
+                    console.error('Error fetching data:', response.getMessage());
+                    return;
+                }
+                var data = response.getDataTable();
+                var jogadores = [];
+                for (var i = 0; i < data.getNumberOfRows(); i++) {
+                    jogadores.push(data.getValue(i, 0));
+                }
+                callback(jogadores);
+            });
+        }
+
+        function exibirInputsJogadores(numJogadores, jogadores) {
+            var jogadoresInputs = document.getElementById("jogadoresInputs");
+            jogadoresInputs.innerHTML = "";
+            for (var i = 0; i < numJogadores; i++) {
+                var select = document.createElement("select");
+                select.className = "jogadorSelect";
+                jogadores.forEach(function (jogador) {
+                    var option = document.createElement("option");
+                    option.value = jogador;
+                    option.text = jogador;
+                    select.appendChild(option);
+                });
+                jogadoresInputs.appendChild(select);
+                jogadoresInputs.appendChild(document.createElement("br"));
+            }
+            document.getElementById("jogadoresForm").style.display = "block";
+        }
+
+        document.getElementById("startButton").addEventListener("click", function () {
+            var selects = document.querySelectorAll(".jogadorSelect");
+            jogadoresSelecionados = Array.from(selects).map(select => select.value);
+            resultados = inicializarResultados(jogadoresSelecionados);
             exibirClassificacao(resultados);
-            jogos = gerarJogos(jogadores);
+            jogos = gerarJogos(jogadoresSelecionados);
             exibirJogoAtual();
+            document.getElementById("jogadoresForm").style.display = "none";
             document.getElementById("startButton").style.display = "none";
             document.getElementById("terminarButton").style.display = "block";
         });
 
-        function criarJogadores(numeroJogadores) {
-            var jogadores = [];
-            for (var i = 1; i <= numeroJogadores; i++) {
-                jogadores.push("Jogador " + i);
-            }
-            return jogadores;
-        }
-
         function inicializarResultados(jogadores) {
             var resultados = {};
-            for (var i = 0; i < jogadores.length; i++) {
-                resultados[jogadores[i]] = { pontos: 0, vitorias: 0, derrotas: 0, jogos: 0 };
-            }
+            jogadores.forEach(jogador => {
+                resultados[jogador] = { pontos: 0, vitorias: 0, derrotas: 0, jogos: 0 };
+            });
             return resultados;
         }
 
         function gerarJogos(jogadores) {
             var jogos = [];
-            var jogadorIndex = 0;
-
             for (var i = 0; i < jogadores.length - 1; i++) {
                 for (var j = i + 1; j < jogadores.length; j++) {
                     jogos.push([jogadores[i], jogadores[j]]);
                 }
             }
             shuffleArray(jogos);
-
-            for (var i = 0; i < jogos.length; i++) {
-                var jogo = jogos[i];
-                if (i % 2 === 1) {
-                    // Evita que um jogador jogue duas vezes seguidas
-                    jogo = [jogos[i][1], jogos[i][0]];
-                }
-                jogos[i] = jogo;
-            }
-
             return jogos;
         }
 
@@ -177,8 +229,8 @@
             }
             classificacao.sort((a, b) => b.pontos - a.pontos);
 
-            for (var i = 0; i < classificacao.length; i++) {
-                var jogador = classificacao[i].jogador;
+            classificacao.forEach(entry => {
+                var jogador = entry.jogador;
                 tabelaHTML += "<tr>";
                 tabelaHTML += "<td>" + jogador + "</td>";
                 tabelaHTML += "<td>" + resultados[jogador].pontos + "</td>";
@@ -186,7 +238,7 @@
                 tabelaHTML += "<td>" + resultados[jogador].derrotas + "</td>";
                 tabelaHTML += "<td>" + resultados[jogador].jogos + "</td>";
                 tabelaHTML += "</tr>";
-            }
+            });
             document.getElementById("tabelaResultados").getElementsByTagName("tbody")[0].innerHTML = tabelaHTML;
         }
 
@@ -232,7 +284,7 @@
             exibirJogoAtual();
         }
 
-        document.getElementById("terminarButton").addEventListener("click", function() {
+        document.getElementById("terminarButton").addEventListener("click", function () {
             var vencedor = null;
             var maxPontos = -1;
 
@@ -244,13 +296,22 @@
             }
 
             if (vencedor !== null) {
-                alert("O vencedor do torneio é: " + vencedor);
+                document.getElementById("winnerImage").src = "/Fotos/medalha.png"; // Substitua "winner.jpg" pelo caminho da imagem do vencedor
+                document.getElementById("winnerName").textContent = "Vencedor: " + vencedor;
+                document.getElementById("winnerSection").style.display = "block";
+                document.getElementById("terminarButton").style.display = "none"; // Esconde o botão de terminar
             } else {
                 alert("Nenhum vencedor encontrado. Por favor, jogue mais jogos para determinar o vencedor.");
             }
-        });
-    </script>
 
+            // Esconde a tabela de resultados e a seção de jogos independentemente do resultado
+            document.getElementById("tabelaResultados").style.display = "none";
+            document.getElementById("jogosContainer").style.display = "none";
+        });
+
+        // Load the Google Visualization API
+        google.charts.load('current', { 'packages': ['corechart'] });
+    </script>
 </body>
 </html>
 

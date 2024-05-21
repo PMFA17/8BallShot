@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +7,16 @@
     <style>
         coiso {
             font-family: 'Arial', sans-serif;
-            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f8f9fa;
+        }
+
+        .First {
+            background-color: darkgray;
+            color: white;
+            font-size: 30px;
+            border-radius: 6px;
+            padding: 5px;
         }
 
         h1 {
@@ -22,8 +26,8 @@
         }
 
         .container {
-            max-width: 600px;
-            margin: 20px;
+            max-width: 800px;
+            margin: 0 auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -46,7 +50,7 @@
 
         button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: darkgray;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -55,7 +59,7 @@
         }
 
             button:hover {
-                background-color: #0056b3;
+                background-color: darkgray;
             }
 
         #torneio {
@@ -63,10 +67,15 @@
         }
 
         .rodada {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             margin-bottom: 30px;
             border-bottom: 1px solid #ccc;
             padding-bottom: 20px;
         }
+
 
         .jogo {
             display: flex;
@@ -97,6 +106,8 @@
     </style>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+        var nomesPreenchidos = false; // Adicionando uma variável de controle
+
         var spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing';
 
         function fetchPlayerNames(url, callback) {
@@ -120,11 +131,15 @@
         }
 
         function preencherNomes() {
-            const numJogadores = parseInt(document.getElementById('numJogadores').value);
-            if (isNaN(numJogadores) || numJogadores < 2 || numJogadores > 16 || numJogadores % 2 !== 0) {
-                alert('Por favor, insira um número par de jogadores entre 2 e 16.');
+            const numJogadoresInput = document.getElementById('numJogadores');
+            const numJogadores = parseInt(numJogadoresInput.value);
+            if (isNaN(numJogadores) || numJogadores < 2 || numJogadores > 64 || numJogadores % 2 !== 0) {
+                alert('Por favor, insira um número par de jogadores entre 2 e 64.');
                 return;
             }
+
+            // Desabilitar o campo de entrada após a seleção
+            numJogadoresInput.disabled = true;
 
             fetchPlayerNames(spreadsheetUrl, function (jogadores) {
                 const nomesDiv = document.getElementById('nomesJogadores');
@@ -132,16 +147,17 @@
 
                 for (let i = 0; i < numJogadores; i++) {
                     nomesDiv.innerHTML += `
-                                <label for="jogador${i}">Nome do Jogador ${i + 1}:</label>
-                                <select id="jogador${i}" onchange="atualizarSelecoes()">
-                                    <option value="">Selecione um jogador</option>
-                                    ${jogadores.map(jogador => `<option value="${jogador}">${jogador}</option>`).join('')}
-                                </select>
-                                <br>
-                            `;
+                                        <select id="jogador${i}" onchange="atualizarSelecoes()">
+                                            <option value="">Selecione um jogador</option>
+                                            ${jogadores.map(jogador => `<option value="${jogador}">${jogador}</option>`).join('')}
+                                        </select>
+                                        <br>
+                                    `;
                 }
 
                 nomesDiv.style.display = 'block';
+                nomesPreenchidos = true; // Marcando que os nomes foram preenchidos
+                document.getElementById('preencherNomesBtn').style.display = 'none'; // Esconde o botão "Preencher Nomes"
             });
         }
 
@@ -163,9 +179,14 @@
 
         function gerarTorneio() {
             const numJogadores = parseInt(document.getElementById('numJogadores').value);
-            if (isNaN(numJogadores) || numJogadores < 2 || numJogadores > 16 || numJogadores % 2 !== 0) {
-                alert('Por favor, insira um número par de jogadores entre 2 e 16.');
+            if (isNaN(numJogadores) || numJogadores < 2 || numJogadores > 64 || numJogadores % 2 !== 0) {
+                alert('Por favor, insira um número par de jogadores entre 2 e 64.');
                 return;
+            }
+
+            if (!nomesPreenchidos) { // Verifica se os nomes dos jogadores foram preenchidos
+                preencherNomes(); // Se não foram preenchidos, preenche-os
+                return; // Retorna para evitar gerar o torneio até que os nomes sejam preenchidos
             }
 
             const nomesDiv = document.getElementById('nomesJogadores');
@@ -192,17 +213,30 @@
             gerarRodada(torneioDiv, nomesJogadores, 1);
         }
 
+        function exibirVencedorFinal(vencedor) {
+            const torneioDiv = document.getElementById('torneio');
+            torneioDiv.innerHTML = '';
+            const vencedorDiv = document.createElement('div');
+            vencedorDiv.style.display = 'flex';
+            vencedorDiv.style.alignItems = 'center';
+            vencedorDiv.style.justifyContent = 'center';
+            vencedorDiv.innerHTML = `
+                        <div style="text-align: center;">
+                        <img src="/Fotos/medalha.png" style="margin-bottom: 10px;">
+                        <p><strong>Vencedor ${vencedor}</strong></p>
+                        </div>
+                    `;
+            torneioDiv.appendChild(vencedorDiv);
+        }
+
         function gerarRodada(parentDiv, jogadores, rodada) {
             const rodadaDiv = document.createElement('div');
             rodadaDiv.className = 'rodada';
-            rodadaDiv.innerHTML = `<h2>Rodada ${rodada}</h2>`;
+            rodadaDiv.innerHTML = `<h3>Rodada ${rodada}</h3>`;
             parentDiv.appendChild(rodadaDiv);
 
             if (jogadores.length === 1) {
-                const vencedorDiv = document.createElement('div');
-                vencedorDiv.className = 'vencedor';
-                vencedorDiv.innerHTML = `<strong>Vencedor: ${jogadores[0]}</strong>`;
-                rodadaDiv.appendChild(vencedorDiv);
+                exibirVencedorFinal(jogadores[0]);
                 return;
             }
 
@@ -253,14 +287,18 @@
     </script>
 </head>
 <coiso>
+    <div class="Link_Style">
+        <label> <a target="_blank" class="First" href="https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing">Lista de Jogadores</a></label>
+    </div>
     <div class="container" id="setup">
-        <h1>Configurar Torneio</h1>
-        <label for="numJogadores">Número de Jogadores:</label>
-        <input type="number" id="numJogadores" min="2" max="16" step="2">
-        <button onclick="preencherNomes()">Preencher Nomes</button>
+        <h1>Criar Torneio</h1>
+        <label for="numJogadores">Número de Jogadores do Torneio:</label>
+        <input type="number" id="numJogadores" min="2" max="64" step="2">
+        <button id="preencherNomesBtn" onclick="preencherNomes()">Continuar</button>
         <div id="nomesJogadores" style="display: none;"></div>
-        <button onclick="gerarTorneio()">Gerar Torneio</button>
+        <button onclick="gerarTorneio()">Criar Torneio</button>
     </div>
     <div class="container" id="torneio" style="display: none;"></div>
 </coiso>
 </html>
+

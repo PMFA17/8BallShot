@@ -3,20 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campeonato de Jogadores</title>
+    <title>Campeonato de Bilhar</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .First {
+            background-color: darkgray;
+            color: white;
+            font-size: 30px;
+            border-radius: 6px;
+            padding: 5px;
         }
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 50px auto;
             padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
+            color: #333;
         }
 
         table {
@@ -32,37 +47,74 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: darkgrey;
+            color: #fff;
         }
 
         .button {
-            display: block;
+            display: inline-block;
             margin: 20px auto;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: darkgrey;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
+            transition: background-color 0.3s;
         }
 
             .button:hover {
-                background-color: #0056b3;
+                background-color: darkgrey;
             }
 
         .form-group {
             margin: 15px 0;
+            text-align: center;
         }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                max-width: 300px;
+                padding: 10px;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+                transition: border-color 0.3s;
+            }
+
+                .form-group input:focus, .form-group select:focus {
+                    border-color: darkgrey;
+                    outline: none;
+                }
 
         .winner-section {
             text-align: center;
             margin-top: 20px;
         }
+
+            .winner-section img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .winner-section h3 {
+                color: darkgrey;
+            }
     </style>
 </head>
 <body>
+    <div class="Link_Style">
+        <label> <a target="_blank" class="First" href="https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing">Lista de Jogadores</a></label>
+    </div>
     <div class="container">
         <h1>Campeonato de Bilhar</h1>
 
@@ -102,7 +154,6 @@
             <img src="" id="winnerImage" alt="Vencedor">
             <h3 id="winnerName"></h3>
         </div>
-
 
         <div id="jogosContainer">
             <h2>Jogos</h2>
@@ -159,9 +210,12 @@
                 for (var i = 0; i < data.getNumberOfRows(); i++) {
                     jogadores.push(data.getValue(i, 0));
                 }
+                // Adiciona um nome padrão à lista de jogadores
+                jogadores.unshift("Selecione um jogador");
                 callback(jogadores);
             });
         }
+
 
         function exibirInputsJogadores(numJogadores, jogadores) {
             var jogadoresInputs = document.getElementById("jogadoresInputs");
@@ -175,10 +229,27 @@
                     option.text = jogador;
                     select.appendChild(option);
                 });
+                select.addEventListener('change', atualizarOpcoes);
                 jogadoresInputs.appendChild(select);
                 jogadoresInputs.appendChild(document.createElement("br"));
             }
             document.getElementById("jogadoresForm").style.display = "block";
+        }
+
+        function atualizarOpcoes() {
+            var selects = document.querySelectorAll(".jogadorSelect");
+            var selecionados = Array.from(selects).map(select => select.value);
+
+            selects.forEach(function (select) {
+                var opcoes = Array.from(select.options);
+                opcoes.forEach(function (opcao) {
+                    if (selecionados.includes(opcao.value) && opcao.value !== select.value) {
+                        opcao.style.display = 'none';
+                    } else {
+                        opcao.style.display = 'block';
+                    }
+                });
+            });
         }
 
         document.getElementById("startButton").addEventListener("click", function () {
@@ -296,17 +367,16 @@
             }
 
             if (vencedor !== null) {
-                document.getElementById("winnerImage").src = "/Fotos/medalha.png"; // Substitua "winner.jpg" pelo caminho da imagem do vencedor
+                document.getElementById("winnerImage").src = "/Fotos/medalha.png"; // Substitua "medalha.png" pelo caminho da imagem do vencedor
                 document.getElementById("winnerName").textContent = "Vencedor: " + vencedor;
                 document.getElementById("winnerSection").style.display = "block";
                 document.getElementById("terminarButton").style.display = "none"; // Esconde o botão de terminar
+
             } else {
                 alert("Nenhum vencedor encontrado. Por favor, jogue mais jogos para determinar o vencedor.");
             }
-
-            // Esconde a tabela de resultados e a seção de jogos independentemente do resultado
-            document.getElementById("tabelaResultados").style.display = "none";
-            document.getElementById("jogosContainer").style.display = "none";
+            document.getElementById("tabelaResultados").style.display = "none"; // Esconde a tabela de resultados
+            document.getElementById("jogosContainer").style.display = "none"; // Esconde a seção de jogos
         });
 
         // Load the Google Visualization API
@@ -314,4 +384,3 @@
     </script>
 </body>
 </html>
-

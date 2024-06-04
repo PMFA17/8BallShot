@@ -7,6 +7,7 @@
     <style>
         coiso {
             font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
             justify-content: center;
             align-items: center;
         }
@@ -23,7 +24,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         label {
@@ -139,12 +140,12 @@
 
                 for (let i = 0; i < numJogadores; i++) {
                     nomesDiv.innerHTML += `
-                                        <select id="jogador${i}" onchange="atualizarSelecoes()">
-                                            <option value="">Selecione um jogador</option>
-                                            ${jogadores.map(jogador => `<option value="${jogador}">${jogador}</option>`).join('')}
-                                        </select>
-                                        <br>
-                                    `;
+                                                <select id="jogador${i}" onchange="atualizarSelecoes()">
+                                                    <option value="">Selecione um jogador</option>
+                                                    ${jogadores.map(jogador => `<option value="${jogador}">${jogador}</option>`).join('')}
+                                                </select>
+                                                <br>
+                                            `;
                 }
 
                 nomesDiv.style.display = 'block';
@@ -213,11 +214,11 @@
             vencedorDiv.style.alignItems = 'center';
             vencedorDiv.style.justifyContent = 'center';
             vencedorDiv.innerHTML = `
-                        <div style="text-align: center;">
-                        <img src="/Fotos/medalha.png" style="margin-bottom: 10px;">
-                        <p><strong>Vencedor ${vencedor}</strong></p>
-                        </div>
-                    `;
+                                <div style="text-align: center;">
+                                <img src="/Fotos/medalha.png" style="margin-bottom: 10px;">
+                                <p><strong>Vencedor ${vencedor}</strong></p>
+                                </div>
+                            `;
             torneioDiv.appendChild(vencedorDiv);
         }
 
@@ -241,16 +242,16 @@
                 const jogador2 = jogadores[i + 1];
 
                 jogoDiv.innerHTML = `
-                            <div class="jogador">
-                                ${jogador1}
-                                <button onclick="selecionarVencedor('${jogador1}', ${rodada}, this)">Selecionar</button>
-                            </div>
-                            <div class="linha"></div>
-                            <div class="jogador">
-                                ${jogador2}
-                                <button onclick="selecionarVencedor('${jogador2}', ${rodada}, this)">Selecionar</button>
-                            </div>
-                        `;
+                                    <div class="jogador">
+                                        ${jogador1}
+                                        <button onclick="selecionarVencedor('${jogador1}', ${rodada}, this)">Selecionar</button>
+                                    </div>
+                                    <div class="linha"></div>
+                                    <div class="jogador">
+                                        ${jogador2}
+                                        <button onclick="selecionarVencedor('${jogador2}', ${rodada}, this)">Selecionar</button>
+                                    </div>
+                                `;
                 rodadaDiv.appendChild(jogoDiv);
             }
 
@@ -278,12 +279,14 @@
         }
     </script>
 </head>
+
 <coiso>
     <div class="Link_Style">
         <label> <a target="_blank" href="https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing">Lista de Jogadores</a></label>
+        <p></p>
     </div>
     <div class="container" id="setup">
-        <h1>Criar Torneio</h1>
+        <h1>Eliminatórias de Bilhar</h1>
         <label for="numJogadores">Número de Jogadores do Torneio:</label>
         <input type="number" id="numJogadores" min="2" max="64" step="2">
         <button id="preencherNomesBtn" onclick="preencherNomes()">Continuar</button>

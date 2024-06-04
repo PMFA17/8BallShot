@@ -28,49 +28,19 @@ namespace _8BallShot.Controllers
             };
         }
 
-        // GET: Torneios
-        public async Task<IActionResult> Index()
+        public IActionResult Tabela()
         {
-            return View(_jogador);
-              //return _context.Torneio != null ? 
-              //            View(await _context.Torneio.ToListAsync()) :
-              //            Problem("Entity set 'ApplicationDbContext.Torneio'  is null.");
+            return View();
         }
 
-        [HttpPost]
-        public IActionResult Bracket(int player1, int player2)
+        public IActionResult Eliminatoria()
         {
-            var player1Selected = _jogador.Find(p => p.IdJogador == player1);
-            var player2Selected = _jogador.Find(p => p.IdJogador == player2);
-
-            if (player1Selected != null && player2Selected != null)
-            {
-                var model = new Tuple<Jogador, Jogador>(player1Selected, player2Selected);
-                return View("BracketView", model);
-            }
-            else
-            {
-                return NotFound(); // Trata o caso em que um ou ambos os jogadores não são encontrados
-            }
+            return View();
         }
 
-
-        // GET: Torneios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Formato()
         {
-            if (id == null || _context.Torneio == null)
-            {
-                return NotFound();
-            }
-
-            var torneio = await _context.Torneio
-                .FirstOrDefaultAsync(m => m.IdTorneio == id);
-            if (torneio == null)
-            {
-                return NotFound();
-            }
-
-            return View(torneio);
+            return View();
         }
 
         // GET: Torneios/Create
@@ -95,97 +65,5 @@ namespace _8BallShot.Controllers
             return View(torneio);
         }
 
-        // GET: Torneios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Torneio == null)
-            {
-                return NotFound();
-            }
-
-            var torneio = await _context.Torneio.FindAsync(id);
-            if (torneio == null)
-            {
-                return NotFound();
-            }
-            return View(torneio);
-        }
-
-        // POST: Torneios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTorneio,NomeTorneio,nFases,nJogadores,DataInicio")] Torneio torneio)
-        {
-            if (id != torneio.IdTorneio)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(torneio);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TorneioExists(torneio.IdTorneio))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(torneio);
-        }
-
-        // GET: Torneios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Torneio == null)
-            {
-                return NotFound();
-            }
-
-            var torneio = await _context.Torneio
-                .FirstOrDefaultAsync(m => m.IdTorneio == id);
-            if (torneio == null)
-            {
-                return NotFound();
-            }
-
-            return View(torneio);
-        }
-
-        // POST: Torneios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Torneio == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Torneio'  is null.");
-            }
-            var torneio = await _context.Torneio.FindAsync(id);
-            if (torneio != null)
-            {
-                _context.Torneio.Remove(torneio);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TorneioExists(int id)
-        {
-          return (_context.Torneio?.Any(e => e.IdTorneio == id)).GetValueOrDefault();
-        }
     }
 }

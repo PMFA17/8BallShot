@@ -9,6 +9,7 @@ namespace _8BallShot.Models
         public string NomeTorneio { get; set; }
         public int nFases { get; set; }
         public int nJogadores { get; set; }
+        public string Formato { get; set; }
         public DateTime DataInicio { get; set; }
 
     }

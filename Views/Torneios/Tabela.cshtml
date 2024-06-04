@@ -7,12 +7,87 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0a4300; /* Verde escuro, como o feltro da mesa de bilhar */
+            background-color: white;
             margin: 0;
             padding: 0;
-            color: #fff; /* Texto branco para contraste */
         }
-
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: darkgrey;
+            color: #fff;
+        }
+        .button {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: darkgrey;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: darkgrey;
+        }
+        .form-group {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: darkgrey;
+            outline: none;
+        }
+        .winner-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .winner-section img {
+            width: 100px;
+            height: 100px;
+        }
+        .winner-section h3 {
+            color: darkgrey;
+        }
+        
         input[type="number"],
         select {
             padding: 10px;
@@ -21,111 +96,11 @@
             border-radius: 4px;
             width: 100%;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #014421; /* Verde, semelhante ao feltro da mesa */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #fff;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #333; /* Preto para contraste com o texto branco */
-            color: #fff;
-        }
-
-        th, td {
-            border: 1px solid #fff; /* Bordas brancas para contraste */
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #0a4300; /* Verde escuro */
-        }
-
-        .button {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #d4af37; /* Cor dourada para botões, remetendo a troféus e prêmios */
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-            .button:hover {
-                background-color: #c49b2e; /* Dourado mais escuro ao passar o mouse */
-            }
-
-        .form-group {
-            margin: 15px 0;
-            text-align: center;
-        }
-
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                color: #fff;
-            }
-
-            .form-group input, .form-group select {
-                width: 100%;
-                max-width: 300px;
-                padding: 10px;
-                margin: 0 auto;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-                transition: border-color 0.3s;
-            }
-
-                .form-group input:focus, .form-group select:focus {
-                    border-color: #d4af37; /* Dourado para os campos de entrada */
-                    outline: none;
-                }
-
-        .winner-section {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-            .winner-section img {
-                width: 100px;
-                height: 100px;
-            }
-
-            .winner-section h3 {
-                color: #d4af37; /* Cor dourada para destacar o vencedor */
-            }
-
-        .Link_Style label a {
-            color: #d4af37; /* Dourado para links */
-            text-decoration: none;
-        }
-
-            .Link_Style label a:hover {
-                text-decoration: underline;
-            }
     </style>
 </head>
 <body>
     <div class="Link_Style">
-        <label> <a target="_blank" href="https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing">Lista de Jogadores</a></label>
+        <label> <a target="_blank" class="First" href="https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing">Lista de Jogadores</a></label>
     </div>
     <div class="container">
         <h1>Campeonato de Bilhar</h1>
@@ -161,15 +136,9 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="winner-section" id="winnerSection" style="display: none;">
-            <img src="" id="winnerImage" alt="Vencedor">
-            <h3 id="winnerName"></h3>
-        </div>
-
-        <div id="jogosContainer">
-            <h2>Jogos</h2>
-            <table id="jogoAtual">
+        <div id="todosOsJogosContainer">
+            <table id="todosOsJogos" style="display: none;">
+                <h2>Jogos</h2>
                 <thead>
                     <tr>
                         <th>Jogador A</th>
@@ -182,6 +151,12 @@
                 </tbody>
             </table>
         </div>
+        
+        <div class="winner-section" id="winnerSection" style="display: none;">
+            <img src="" id="winnerImage" alt="Vencedor">
+            <h3 id="winnerName"></h3>
+        </div>
+
     </div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -192,13 +167,13 @@
         var jogadoresSelecionados = [];
         var spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1pJj9lXHHE-WgDh9P-9JhUp6NGMOrIRdxhZQ8Gs9MHow/edit?usp=sharing';
 
-        document.getElementById("confirmNumJogadores").addEventListener("click", function () {
+        document.getElementById("confirmNumJogadores").addEventListener("click", function() {
             var numJogadores = document.getElementById("numJogadores").value;
             if (numJogadores < 4 || numJogadores > 64) {
                 alert("Número inválido de jogadores. O número de jogadores deve estar entre 4 e 64.");
                 return;
             }
-            fetchPlayerNames(spreadsheetUrl, function (jogadores) {
+            fetchPlayerNames(spreadsheetUrl, function(jogadores) {
                 if (jogadores.length < numJogadores) {
                     alert("A planilha não contém jogadores suficientes.");
                     return;
@@ -208,25 +183,26 @@
                 iniciarCampeonato(numJogadores);
             });
         });
-
+        
         function fetchPlayerNames(url, callback) {
-            var query = new google.visualization.Query(url.replace('/edit', '/gviz/tq'));
-            query.setQuery('SELECT A');
-            query.send(function (response) {
-                if (response.isError()) {
-                    console.error('Error fetching data:', response.getMessage());
-                    return;
-                }
-                var data = response.getDataTable();
-                var jogadores = [];
-                for (var i = 0; i < data.getNumberOfRows(); i++) {
-                    jogadores.push(data.getValue(i, 0));
-                }
-                // Adiciona um nome padrão à lista de jogadores
-                jogadores.unshift("Selecione um jogador");
-                callback(jogadores);
-            });
+    var query = new google.visualization.Query(url.replace('/edit', '/gviz/tq'));
+    query.setQuery('SELECT A');
+    query.send(function(response) {
+        if (response.isError()) {
+            console.error('Error fetching data:', response.getMessage());
+            return;
         }
+        var data = response.getDataTable();
+        var jogadores = [];
+        for (var i = 0; i < data.getNumberOfRows(); i++) {
+            jogadores.push(data.getValue(i, 0));
+        }
+        // Adiciona um nome padrão à lista de jogadores
+        jogadores.unshift("Selecione um jogador");
+        callback(jogadores);
+    });
+}
+
 
         function exibirInputsJogadores(numJogadores, jogadores) {
             var jogadoresInputs = document.getElementById("jogadoresInputs");
@@ -234,7 +210,7 @@
             for (var i = 0; i < numJogadores; i++) {
                 var select = document.createElement("select");
                 select.className = "jogadorSelect";
-                jogadores.forEach(function (jogador) {
+                jogadores.forEach(function(jogador) {
                     var option = document.createElement("option");
                     option.value = jogador;
                     option.text = jogador;
@@ -251,9 +227,9 @@
             var selects = document.querySelectorAll(".jogadorSelect");
             var selecionados = Array.from(selects).map(select => select.value);
 
-            selects.forEach(function (select) {
+            selects.forEach(function(select) {
                 var opcoes = Array.from(select.options);
-                opcoes.forEach(function (opcao) {
+                opcoes.forEach(function(opcao) {
                     if (selecionados.includes(opcao.value) && opcao.value !== select.value) {
                         opcao.style.display = 'none';
                     } else {
@@ -263,13 +239,14 @@
             });
         }
 
-        document.getElementById("startButton").addEventListener("click", function () {
+        document.getElementById("startButton").addEventListener("click", function() {
             var selects = document.querySelectorAll(".jogadorSelect");
             jogadoresSelecionados = Array.from(selects).map(select => select.value);
             resultados = inicializarResultados(jogadoresSelecionados);
             exibirClassificacao(resultados);
             jogos = gerarJogos(jogadoresSelecionados);
-            exibirJogoAtual();
+            //exibirJogoAtual();
+            exibirTodosOsJogos();
             document.getElementById("jogadoresForm").style.display = "none";
             document.getElementById("startButton").style.display = "none";
             document.getElementById("terminarButton").style.display = "block";
@@ -342,31 +319,46 @@
             document.getElementById("jogoAtual").style.display = "table";
         }
 
-        function registrarResultado(resultado) {
-            var jogo = jogos[jogoIndex];
-            var jogador1 = jogo[0];
-            var jogador2 = jogo[1];
+        function exibirTodosOsJogos() {
+    var jogosHTML = "";
+    jogos.forEach(function(jogo, index) {
+        jogosHTML += "<tr>";
+        jogosHTML += "<td>" + jogo[0] + "</td>";
+        jogosHTML += "<td>" + jogo[1] + "</td>";
+        jogosHTML += "<td><input type='button' value='Vitória' onclick='registrarResultado(" + index + ", \"Vitória\")'>   <input type='button' value='Derrota' onclick='registrarResultado(" + index + ", \"Derrota\")'></td>";
+        jogosHTML += "</tr>";
+    });
+    document.getElementById("todosOsJogos").innerHTML = jogosHTML;
+    document.getElementById("todosOsJogos").style.display = "table";
+}
 
-            if (resultado === "Vitória") {
-                resultados[jogador1].pontos += 3;
-                resultados[jogador1].vitorias += 1;
-                resultados[jogador2].derrotas += 1;
-            } else if (resultado === "Derrota") {
-                resultados[jogador2].pontos += 3;
-                resultados[jogador2].vitorias += 1;
-                resultados[jogador1].derrotas += 1;
-            }
+function registrarResultado(index, resultado) {
+    var jogo = jogos[index];
+    var jogador1 = jogo[0];
+    var jogador2 = jogo[1];
 
-            resultados[jogador1].jogos += 1;
-            resultados[jogador2].jogos += 1;
+    if (resultado === "Vitória") {
+        resultados[jogador1].pontos += 3;
+        resultados[jogador1].vitorias += 1;
+        resultados[jogador2].derrotas += 1;
+    } else if (resultado === "Derrota") {
+        resultados[jogador2].pontos += 3;
+        resultados[jogador2].vitorias += 1;
+        resultados[jogador1].derrotas += 1;
+    }
 
-            exibirClassificacao(resultados);
+    resultados[jogador1].jogos += 1;
+    resultados[jogador2].jogos += 1;
 
-            jogoIndex++;
-            exibirJogoAtual();
-        }
+    exibirClassificacao(resultados);
 
-        document.getElementById("terminarButton").addEventListener("click", function () {
+    jogos.splice(index, 1); // Remove o jogo da lista de jogos
+
+    exibirTodosOsJogos(); // Atualiza a exibição dos jogos restantes
+}
+
+
+        document.getElementById("terminarButton").addEventListener("click", function() {
             var vencedor = null;
             var maxPontos = -1;
 
@@ -386,12 +378,12 @@
             } else {
                 alert("Nenhum vencedor encontrado. Por favor, jogue mais jogos para determinar o vencedor.");
             }
-            document.getElementById("tabelaResultados").style.display = "none"; // Esconde a tabela de resultados
-            document.getElementById("jogosContainer").style.display = "none"; // Esconde a seção de jogos
+                document.getElementById("tabelaResultados").style.display = "none"; // Esconde a tabela de resultados
+                document.getElementById("jogosContainer").style.display = "none"; // Esconde a seção de jogos
         });
 
         // Load the Google Visualization API
-        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.load('current', {'packages':['corechart']});
     </script>
 </body>
 </html>

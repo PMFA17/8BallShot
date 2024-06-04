@@ -162,9 +162,9 @@
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {
                     if (selecionados.includes(option.value) && option.value !== select.value) {
-                        option.disabled = true;
+                        option.style.display = 'none';
                     } else {
-                        option.disabled = false;
+                        option.style.display = 'block';
                     }
                 });
             });
@@ -225,7 +225,11 @@
         function gerarRodada(parentDiv, jogadores, rodada) {
             const rodadaDiv = document.createElement('div');
             rodadaDiv.className = 'rodada';
-            rodadaDiv.innerHTML = `<h3>Rodada ${rodada}</h3>`;
+            rodadaDiv.innerHTML = `
+                                  <h4>Rodada ${rodada}</h4>
+                                  <p style="font-size: 18px;">Selecione o vencedor de cada jogo</p>
+                                  <p></p>
+                                  `;
             parentDiv.appendChild(rodadaDiv);
 
             if (jogadores.length === 1) {
@@ -244,12 +248,14 @@
                 jogoDiv.innerHTML = `
                                     <div class="jogador">
                                         ${jogador1}
-                                        <button onclick="selecionarVencedor('${jogador1}', ${rodada}, this)">Selecionar</button>
+                                        <button onclick="selecionarVencedor('${jogador1}', ${rodada}, this)">Vencedor</button>
                                     </div>
+                                    <div class="linha"></div>
+                                    <p>vs</p>
                                     <div class="linha"></div>
                                     <div class="jogador">
                                         ${jogador2}
-                                        <button onclick="selecionarVencedor('${jogador2}', ${rodada}, this)">Selecionar</button>
+                                        <button onclick="selecionarVencedor('${jogador2}', ${rodada}, this)">Vencedor</button>
                                     </div>
                                 `;
                 rodadaDiv.appendChild(jogoDiv);
@@ -266,7 +272,7 @@
             proximaRodada.push(jogador);
             rodadaDiv.dataset.proximaRodada = JSON.stringify(proximaRodada);
 
-            jogoDiv.querySelectorAll('button').forEach(btn => btn.style.display = 'none'); // Esconde os botões
+            jogoDiv.querySelectorAll('button').forEach(btn => btn.style.display = 'none');
             jogoDiv.querySelectorAll('.jogador').forEach(jogadorDiv => {
                 if (jogadorDiv.innerText.includes(jogador)) {
                     jogadorDiv.innerHTML += ' <strong>Vencedor</strong>';
@@ -287,7 +293,7 @@
     </div>
     <div class="container" id="setup">
         <h1>Eliminatórias de Bilhar</h1>
-        <label for="numJogadores">Número de Jogadores do Torneio:</label>
+        <label for="numJogadores">Número de jogadores (2 a 64):</label>
         <input type="number" id="numJogadores" min="2" max="64" step="2">
         <button id="preencherNomesBtn" onclick="preencherNomes()">Continuar</button>
         <div id="nomesJogadores" style="display: none;"></div>

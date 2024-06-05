@@ -33,22 +33,33 @@
     <h2 class="text-center">Selecione o formato do torneio</h2>
     <div class="container text-center">
         <div class="row btn-container">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <button id="btnEliminatoria" class="btn btn-outline-dark btn-large">
                     <h3>Eliminatórias</h3>
+                    <h3></h3>
                 </button>
                 <div class="info-box">
                     <p style="font-size: 18px;">O formato de torneio em eliminatórias, é um modelo competitivo onde os participantes se enfrentam em duelos, o perdedor de cada partida é eliminado da competição.</p>
                     <p style="font-size: 18px;">Este formato termina quando um vencedor é declarado.</p>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <button id="btnTabela" class="btn btn-outline-dark btn-large">
                     <h3>Campeonato</h3>
+                    <h3></h3>
                 </button>
                 <div class="info-box">
                     <p style="font-size: 18px;">O formato de campeonato é um modelo de competição onde todos os participantes enfrentam-se entre si ao longo de uma série de partidas, acumulando pontos de acordo com os seus resultados.</p>
                     <p style="font-size: 18px;">No final, o jogador ou a equipa com a maior pontuação é o vencedor.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button id="btnCampElim" class="btn btn-outline-dark btn-large">
+                    <h3>Campeonato com Eliminatórias</h3>
+                </button>
+                <div class="info-box">
+                    <p style="font-size: 18px;">O formato de torneio em Campeonato e Eliminatórias, consiste em inicialmente os jogadores se enfrentarem entre si, acumulando pontos, quando todos os jogos são realizados passam para uma próxima fase onde o número de jogadores selecionados com a maior pontuação passam a próxima fase.</p>
+                    <p style="font-size: 18px;">Este formato termina quando um vencedor é declarado.</p>
                 </div>
             </div>
         </div>
@@ -62,6 +73,10 @@
         document.getElementById('btnTabela').addEventListener('click', function() {
             window.location.href = '/Torneios/Tabela';
         });
+
+        document.getElementById('btnCampElim').addEventListener('click', function () {
+            window.location.href = '/Torneios/CampeonatoEliminatoria';
+        })
     </script>
 </body>
 </html>

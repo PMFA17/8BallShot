@@ -40,6 +40,12 @@ namespace _8BallShot.Controllers
         {
             return View();
         }
+
+        public IActionResult CampeonatoEliminatoria()
+        {
+            return View();
+        }
+
         [Authorize]
         public IActionResult Formato()
         {

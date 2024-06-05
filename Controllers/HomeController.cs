@@ -18,15 +18,6 @@ namespace _8BallShot.Controllers
             return View();
         }
 
-        public IActionResult Tabela()
-        {
-            return View();
-        }
-        public IActionResult Eliminatoria()
-        {
-            return View();
-        }
-
         public IActionResult Regras()
         {
             return View();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _8BallShot.Data;
 using _8BallShot.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _8BallShot.Controllers
 {
@@ -28,16 +29,18 @@ namespace _8BallShot.Controllers
             };
         }
 
+        [Authorize]
         public IActionResult Tabela()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Eliminatoria()
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Formato()
         {
             return View();
